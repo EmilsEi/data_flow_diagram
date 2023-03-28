@@ -1,0 +1,16 @@
+{
+    "nodes": [
+      {"id": "A", "label": "ScanSchema"},
+      {"id": "B", "label": "IT4EM"},
+      {"id": "C", "label": "Register"},
+      {"id": "D", "label": "Munin"},
+      {"id": "E", "label": "Fasttrack"}
+    ],
+    "edges": [
+      {"source": "A", "target": "B", "label": "DSWDATA"},
+      {"source": "A", "target": "C"},
+      {"source": "A", "target": "D"},
+      {"source": "A", "target": "E"},
+      {"source": "A", "target": "E"}
+    ]
+  }

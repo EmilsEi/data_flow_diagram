@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Data Flow Diagram</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body > svg {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      var width = window.innerWidth;
+      var height = window.innerHeight;
+
+      var svg = d3.select("body").append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .call(d3.zoom().on("zoom", function () {
+          svg.attr("transform", d3.zoomTransform(this))
+        }))
+        .append("g");
+
+      var simulation = d3.forceSimulation()
+        .force("link", d3.forceLink().id(function (d) { return d.id; }))
+        .force("charge", d3.forceManyBody())
+        .force("center", d3.forceCenter(width / 2, height / 2));
+            
+      d3.json("edges.json").then(function (graph) {
+        var link = svg.selectAll("line")
+          .data(graph.edges)
+          .enter().append("line")
+          .attr("stroke", "#999")
+          .attr("stroke-width", "2px");
+
+        var node = svg.selectAll(".node")
+          .data(graph.nodes)
+          .enter().append("g")
+          .attr("class", "node");
+
+        node.append("circle")
+          .attr("r", 10)
+          .attr("fill", "#333");
+
+        node.append("text")
+          .text(function (d) { return d.label; })
+          .attr("dx", 12)
+          .attr("dy", ".35em");
+
+        var edgeLabel = svg.selectAll(".edgeLabel")
+          .data(graph.edges)
+          .enter().append("text")
+          .attr("class", "edgeLabel")
+          .attr("text-anchor", "middle")
+          .attr("font-size", "10px")
+          .text(function (d) { return d.label; });
+            
+        link.append("text")
+          .text(function (d) { return d.label; })
+          .attr("dx", 12)
+          .attr("dy", ".35em");
+
+        simulation.nodes(graph.nodes)
+          .on("tick", ticked);
+
+        simulation.force("link")
+          .links(graph.edges);
+
+        function ticked() {
+          link
+            .attr("x1", function (d) { return d.source.x; })
+            .attr("y1", function (d) { return d.source.y; })
+            .attr("x2", function (d) { return d.target.x; })
+            .attr("y2", function (d) { return d.target.y; });
+
+          node.attr("transform", function (d) {
+            return "translate(" + d.x + "," + d.y + ")";
+          });
+        }
+      }).catch(function (error) {
+        console.log(error);
+      });
+    </script>
+  </body>
+</html>
