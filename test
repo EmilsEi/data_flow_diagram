@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Node-Edge Graph</title>
+  <style>
+    #cy {
+      width: 100%;
+      height: 400px;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div id="cy"></div>
+
+  <script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var cy = cytoscape({
+        container: document.getElementById('cy'),
+
+        elements: {
+          nodes: [
+            { data: { id: 'A' } },
+            { data: { id: 'B' } },
+            { data: { id: 'C' } },
+            { data: { id: 'D' } },
+            { data: { id: 'E' } },
+            { data: { id: 'F' } },
+            { data: { id: 'G' } },
+            { data: { id: 'H' } },
+            { data: { id: 'I' } },
+            { data: { id: 'J' } },
+            { data: { id: 'K' } },
+            { data: { id: 'L' } }
+          ],
+          edges: [
+            { data: { id: 'AB', source: 'A', target: 'B' , label: 'test'} },
+            { data: { id: 'AC', source: 'A', target: 'C' } },
+            { data: { id: 'BD', source: 'B', target: 'D' } },
+            { data: { id: 'BE', source: 'B', target: 'E' } },
+            { data: { id: 'CF', source: 'C', target: 'F' } },
+            { data: { id: 'CG', source: 'C', target: 'G' } },
+            { data: { id: 'DH', source: 'D', target: 'H' } },
+            { data: { id: 'DI', source: 'D', target: 'I' } },
+            { data: { id: 'EJ', source: 'E', target: 'J' } },
+            { data: { id: 'EK', source: 'E', target: 'K' } },
+            { data: { id: 'FL', source: 'F', target: 'L' } }
+          ]
+        },
+
+        style: [
+          {
+            selector: 'node',
+            style: {
+              'background-color': '#666',
+              'label': 'data(id)'
+            }
+          },
+          {
+            selector: 'edge',
+            style: {
+              'width': 2,
+              'line-color': '#999',
+              'curve-style': 'taxi',
+              'target-arrow-color': '#999',
+              'target-arrow-shape': 'triangle',
+              'content': 'data(label)',
+              'font-size': '12px'
+            }
+          }
+        ],
+
+        layout: {
+          name: 'cose'
+        }
+      });
+    });
+  </script>
+</body>
+</html>
